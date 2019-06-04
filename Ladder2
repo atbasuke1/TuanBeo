@@ -1,0 +1,87 @@
+import java.util.Scanner;
+
+
+public class Solution {
+
+	public static void main(String[] args)  {
+		Scanner sc = new Scanner(System.in);
+		int T;
+		for(int i=1;i<11;i++){
+			T=sc.nextInt();
+			int [][] matrix= new int[100][100];
+			for(int j=0;j<matrix.length;j++){
+				for(int e=0;e<matrix.length;e++){
+					matrix[j][e]=sc.nextInt();
+				}
+			}
+			int[] chisoduongdi= ktrathang(matrix);
+		
+			int vitri = check(matrix,chisoduongdi);
+			
+			System.out.println("#" +i+" "+chisoduongdi[vitri]);
+			
+		}
+		
+		
+
+	}
+	public static int[] ktrathang(int[][] maxtrix){
+		int dem=0;
+		for(int i=0;i<maxtrix.length;i++){
+			if(maxtrix[0][i]==1){
+				dem++;
+			}
+		}
+		int[] sothang=new int[dem];
+		int j=0;
+		for(int i=0;i<maxtrix.length;i++){
+			if(maxtrix[0][i]==1){
+				sothang[j]=i;
+				j++;
+			}
+		}
+		
+		
+		return sothang;
+	}
+	public static int check(int[][] matrix,int[] chisoduongdi){
+		int min=0;
+		int vt =0;
+		int vitri=chisoduongdi[0];
+		for(int i=0;i<chisoduongdi.length;i++){
+			vitri=i;
+			int colum = chisoduongdi[i];
+			int sobuoc=0;
+			int row=0;
+			
+			while(row<matrix.length){
+				if(colum+1 < matrix.length && matrix[row][colum+1] == 1 && vitri <=chisoduongdi.length-1){
+					vitri++;
+					colum = chisoduongdi[vitri];
+					row++;
+					sobuoc+=chisoduongdi[vitri]-chisoduongdi[vitri-1] +1;
+				}else if(colum-1 > 0 && matrix[row][colum-1]==1 && vitri > 0){
+					vitri--;
+					colum = chisoduongdi[vitri];
+					row++;
+					sobuoc+=chisoduongdi[vitri+1]-chisoduongdi[vitri] +1;
+				}else{
+					row++;
+					sobuoc++;
+				}
+				
+			}
+			if(min==0){
+				min=sobuoc;
+				vt=i;
+			}else if(min>sobuoc){
+				min=sobuoc;
+				vt=i;
+			}
+			
+		}
+			
+		return vt;
+	}
+
+}
